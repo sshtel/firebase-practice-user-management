@@ -9,6 +9,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 app.use('/', routers.rootRouter)
+app.use('/user', routers.userRouter)
 
 app.listen(port, () => {
     console.log(`server started.. http://localhost:${port}`)
