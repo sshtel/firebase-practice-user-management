@@ -1,5 +1,9 @@
 import * as express from 'express'
 import * as routers from './routers'
+import * as firestore from './repository/firestore'
+
+
+firestore.initFirebaseAdmin();
 
 
 const app = express();

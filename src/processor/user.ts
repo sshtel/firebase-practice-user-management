@@ -2,7 +2,7 @@ import { User } from '../model/user'
 import * as firestore from '../repository/firestore'
 
 export const getUser = async (userId: string): Promise<User> => {
-    const result: FirebaseFirestore.DocumentSnapshot = await firestore.db.collection('users').doc(userId).get()
+    const result: FirebaseFirestore.DocumentSnapshot = await firestore.db().collection('users').doc(userId).get()
     
     return {
         name: result.get('name'),
@@ -11,8 +11,8 @@ export const getUser = async (userId: string): Promise<User> => {
     } as User
 }
 
-export const createUser = async (user: User): Promise<String> => {
-    const res = await firestore.db.collection('users').add({
+export const createUser = async (user: User): Promise<string> => {
+    const res = await firestore.db().collection('users').add({
         name: user.name,
         email: user.email,
         phone_number: user.phoneNumber
@@ -23,7 +23,7 @@ export const createUser = async (user: User): Promise<String> => {
 
 
 export const updateUser = async (userId: string, user: User) => {
-    const res = await firestore.db.collection('users').doc(userId).set({
+    await firestore.db().collection('users').doc(userId).set({
         name: user.name,
         email: user.email,
         phone_number: user.phoneNumber
@@ -32,5 +32,5 @@ export const updateUser = async (userId: string, user: User) => {
 }
 
 export const deleteUser = async (userId: string) => {
-    await firestore.db.collection('users').doc(userId).delete()
+    await firestore.db().collection('users').doc(userId).delete()
 }
