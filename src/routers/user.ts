@@ -25,11 +25,11 @@ userRouter.route('/:userId').patch( async (req, res, next) => {
         email: req.body.email,
         phoneNumber: req.body.phone_number,
     } as User )
-    res.json({ status: 'PATCH / OK'})
+    res.json({ status: 'ok'})
 })
 
 userRouter.route('/').delete( async (req, res, next) => {
     await userProc.deleteUser(req.body.userId)
-    res.json({ status: 'DELETE / OK'})
+    res.json({ status: 'ok'})
 })
 
