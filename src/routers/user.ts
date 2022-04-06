@@ -28,8 +28,9 @@ userRouter.route('/:userId').patch( async (req, res, next) => {
     res.json({ status: 'ok'})
 })
 
-userRouter.route('/').delete( async (req, res, next) => {
-    await userProc.deleteUser(req.body.userId)
+userRouter.route('/:userId').delete( async (req, res, next) => {
+    const userId = req.params.userId
+    await userProc.deleteUser(userId)
     res.json({ status: 'ok'})
 })
 

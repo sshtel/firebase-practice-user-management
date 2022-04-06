@@ -42,5 +42,21 @@ describe('Users collection CRUD', () => {
 
     });
 
+    it('should create, get, delete user', async () => {
+        const userId = await userProc.createUser({
+            name: "Steve",
+            email: "sshtel@gmail.com",
+            phoneNumber: "3333"
+        })
+
+        const result = await userProc.getUser(userId);
+        expect(result.name).to.equal('Steve')
+        expect(result.email).to.equal('sshtel@gmail.com')
+        expect(result.phoneNumber).to.equal('3333')
+
+        await userProc.deleteUser(userId)
+
+    });
+
 });
 
