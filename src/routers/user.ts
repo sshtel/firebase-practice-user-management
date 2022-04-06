@@ -9,16 +9,17 @@ userRouter.route('/:userId').get( async (req, res, next) => {
 })
 
 userRouter.route('/').post( async (req, res, next) => {
-    await userProc.createUser({
+    const userId = await userProc.createUser({
         name: req.body.name,
         email: req.body.email,
         phoneNumber: req.body.phone_number,
     } as User )
-    res.json({ status: 'POST / OK'})
+    res.json({ status: 'ok', userId: userId })
 })
 
-userRouter.route('/').patch( async (req, res, next) => {
-    await userProc.updateUser(req.body.userId,
+userRouter.route('/:userId').patch( async (req, res, next) => {
+    const userId = req.params.userId
+    await userProc.updateUser(userId,
         {
         name: req.body.name,
         email: req.body.email,
