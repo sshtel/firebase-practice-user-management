@@ -40,9 +40,15 @@ describe('Link Preview Test', () => {
         })
 
         const res = await proc.fetchSiteAndStoreToFirestore(
-            userId, { url: 'www.google.com' })
+            userId,
+            [ 
+                { a: 1, b:2 },
+                { c: "cc", d:"dd" }
+            ],
+            { url: 'www.google.com' })
         expect(res.status).to.equal('read')
         expect(res.created_at).to.exist
+
     });
 
 });
