@@ -1,11 +1,6 @@
-// import * as admin from 'firebase-admin'
-
-import * as chai from 'chai'
 import * as firestore from '../repository/firestore'
-
 import * as userProc from '../processor/user'
-
-const expect = chai.expect;
+import { expect } from 'chai'
 
 firestore.initFirebaseAdmin()
 
