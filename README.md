@@ -16,6 +16,33 @@ $ npm run start
 ```
 
 ## How to test ##
+
+- firebase emulator should run first
+- FIRESTORE_EMULATOR_HOST: '127.0.0.1:8888' is fixed
+
+
+```
+$ firebase emulators:start
+i  emulators: Starting emulators: firestore
+i  firestore: Firestore Emulator logging to firestore-debug.log
+i  ui: Emulator UI logging to ui-debug.log
+
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://localhost:8889                │
+└─────────────────────────────────────────────────────────────┘
+
+┌───────────┬────────────────┬─────────────────────────────────┐
+│ Emulator  │ Host:Port      │ View in Emulator UI             │
+├───────────┼────────────────┼─────────────────────────────────┤
+│ Firestore │ 127.0.0.1:8888 │ http://localhost:8889/firestore │
+└───────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub running at localhost:4400
+  Other reserved ports: 4500
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+```
+
 ```
 $ yarn test
 ```
