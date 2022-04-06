@@ -19,7 +19,7 @@ export const fetchSite = async (req: LinkPreviewServiceFetchRequest) => {
     }
 }
 
-export const fetchSiteAndStoreToFirestore = async (userId: string, req: LinkPreviewServiceFetchRequest): Promise<LinkPreviewAppResponse> => {
+export const fetchSiteAndStoreToFirestore = async (userId: string, tags: any[], req: LinkPreviewServiceFetchRequest): Promise<LinkPreviewAppResponse> => {
     let fetchData;
     try {
         fetchData = await fetchSite(req);
@@ -28,18 +28,33 @@ export const fetchSiteAndStoreToFirestore = async (userId: string, req: LinkPrev
         return { status: LinkPreviewAppResponseStatus[LinkPreviewAppResponseStatus.unread] }
     }
        
+    let learnContentDoc;
 
     try {
-        await firestore.db().collection('link-preview').add({
+        learnContentDoc = await firestore.db().collection('users').doc(userId).collection('learn_content').add({
             title: fetchData.title || '',
             url: fetchData.url || '',
             description: fetchData.description || '',
             image: fetchData.image || ''
         });
+        console.log(learnContentDoc.id)
+
+        
     } catch (e) {
         console.error(e)
         return { status: LinkPreviewAppResponseStatus[LinkPreviewAppResponseStatus.unread] }
     }
+
+    try {
+        for (const tag of tags) {
+            firestore.db().collection('users').doc(userId).collection('learn_content').doc(learnContentDoc.id).collection('tags').add(tag);
+        }
+                
+    } catch (e) {
+        console.error(e)
+
+    }
+
 
     return {
         title: fetchData.title,

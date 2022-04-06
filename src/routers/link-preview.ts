@@ -14,6 +14,7 @@ linkPreviewRouter.route('/fetch').post( async (req, res, next) => {
 linkPreviewRouter.route('/fetch-and-store').post( async (req, res, next) => {
     const response = await procLinkPreview.fetchSiteAndStoreToFirestore(
         req.body.user_id,
+        req.body.tags,
         {
             url: req.body.url
         } as LinkPreviewServiceFetchRequest)
