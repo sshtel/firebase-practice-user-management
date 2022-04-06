@@ -6,7 +6,8 @@
 
 ```
 $ yarn install
-$ yarn start
+
+$ FIREBASE_SERVICE_ACCOUNT_KEY_PATH=./credentials/your-firebase-adminsdk-serviceaccount.json yarn start
 ```
 
 ```
