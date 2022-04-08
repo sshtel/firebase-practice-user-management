@@ -3,7 +3,11 @@ import * as proc from '../processor/link-preview'
 import * as userProc from '../processor/user'
 import { expect } from 'chai'
 
-firestore.initFirebaseAdmin()
+try {    
+    firestore.initFirebaseAdmin()
+} catch (e) {
+    console.log(e)
+}
 
 beforeEach(() => {
     process.env = Object.assign(process.env, {
