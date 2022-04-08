@@ -8,7 +8,7 @@ export enum LinkPreviewAppResponseStatus {
     unread
 }
 
-export interface LinkPreviewAppResponse {
+export interface LinkPreviewData {
     title?: string;
     description?: string;
     url?: string;

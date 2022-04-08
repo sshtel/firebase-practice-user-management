@@ -1,5 +1,5 @@
 import {
-    LinkPreviewAppResponse,
+    LinkPreviewData,
     LinkPreviewServiceFetchRequest,
     LinkPreviewAppResponseStatus
 } from "../model/link-preveiw";
@@ -19,8 +19,9 @@ export const fetchSite = async (req: LinkPreviewServiceFetchRequest) => {
     }
 }
 
-export const fetchSiteAndStoreToFirestore = async (userId: string, tags: any[], req: LinkPreviewServiceFetchRequest): Promise<LinkPreviewAppResponse> => {
+export const fetchSiteAndStoreToFirestore = async (param: {userId: string, tags?: any[], req: LinkPreviewServiceFetchRequest}): Promise<LinkPreviewData> => {
     let fetchData;
+    const { userId, tags, req } = param;
     try {
         fetchData = await fetchSite(req);
     } catch (e) {
@@ -29,14 +30,16 @@ export const fetchSiteAndStoreToFirestore = async (userId: string, tags: any[], 
     }
        
     let learnContentDoc;
-
+    const object = {
+        title: fetchData.title,
+        description: fetchData.description,
+        url: fetchData.url,
+        image: fetchData.image,
+        created_at: +(new Date()),
+        status: LinkPreviewAppResponseStatus[LinkPreviewAppResponseStatus.unread]
+    }
     try {
-        learnContentDoc = await firestore.db().collection('users').doc(userId).collection('learn_content').add({
-            title: fetchData.title || '',
-            url: fetchData.url || '',
-            description: fetchData.description || '',
-            image: fetchData.image || ''
-        });
+        learnContentDoc = await firestore.db().collection('users').doc(userId).collection('learn_content').add(object);
         console.log(learnContentDoc.id)
 
         
@@ -45,24 +48,20 @@ export const fetchSiteAndStoreToFirestore = async (userId: string, tags: any[], 
         return { status: LinkPreviewAppResponseStatus[LinkPreviewAppResponseStatus.unread] }
     }
 
-    try {
-        for (const tag of tags) {
-            firestore.db().collection('users').doc(userId).collection('learn_content').doc(learnContentDoc.id).collection('tags').add(tag);
+    if (tags){
+        try {
+            for (const tag of tags) {
+                firestore.db().collection('users').doc(userId).collection('learn_content').doc(learnContentDoc.id).collection('tags').add(tag);
+            }
+                    
+        } catch (e) {
+            console.error(e)
+    
         }
-                
-    } catch (e) {
-        console.error(e)
-
     }
+   
 
 
-    return {
-        title: fetchData.title,
-        description: fetchData.description,
-        url: fetchData.url,
-        image: fetchData.image,
-        created_at: +(new Date()),
-        status: LinkPreviewAppResponseStatus[LinkPreviewAppResponseStatus.read]
-    }
+    return object;
 
 }
