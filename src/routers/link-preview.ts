@@ -18,5 +18,5 @@ linkPreviewRouter.route('/fetch-and-store').post( async (req, res, next) => {
         req: {
             url: req.body.url
         } as LinkPreviewServiceFetchRequest})
-    res.json(response)
+    res.json({ status: 'ok', fetchData: response })
 })

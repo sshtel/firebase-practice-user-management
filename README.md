@@ -150,6 +150,7 @@ $ curl -X POST  localhost:8080/link-preview/fetch -H "Content-Type: application/
 {
     url: string, // target url to view using Link Preview
     user_id: string // userId of User Object in FireStore. preview data is stored within the User object
+    tags: Object[] // Optional: An array of Tags
 }
 ```
 - Response

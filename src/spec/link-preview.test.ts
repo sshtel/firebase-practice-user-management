@@ -39,14 +39,14 @@ describe('Link Preview Test', () => {
             phoneNumber: "3333"
         })
 
-        const res = await proc.fetchSiteAndStoreToFirestore(
-            userId,
-            [ 
+        const res = await proc.fetchSiteAndStoreToFirestore({
+            userId: userId,
+            tags: [ 
                 { a: 1, b:2 },
                 { c: "cc", d:"dd" }
             ],
-            { url: 'www.google.com' })
-        expect(res.status).to.equal('read')
+            req: { url: 'www.google.com' }})
+        expect(res.status).to.equal('unread')
         expect(res.created_at).to.exist
 
     });
