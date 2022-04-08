@@ -12,11 +12,11 @@ linkPreviewRouter.route('/fetch').post( async (req, res, next) => {
 
 
 linkPreviewRouter.route('/fetch-and-store').post( async (req, res, next) => {
-    const response = await procLinkPreview.fetchSiteAndStoreToFirestore(
-        req.body.user_id,
-        req.body.tags,
-        {
+    const response = await procLinkPreview.fetchSiteAndStoreToFirestore({
+        userId: req.body.user_id,
+        tags: req.body.tags,
+        req: {
             url: req.body.url
-        } as LinkPreviewServiceFetchRequest)
-    res.json(response)
+        } as LinkPreviewServiceFetchRequest})
+    res.json({ status: 'ok', fetchData: response })
 })
