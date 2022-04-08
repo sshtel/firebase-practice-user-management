@@ -25,10 +25,10 @@ export const fetchSiteAndStoreToFirestore = async (param: {userId: string, tags?
     try {
         fetchData = await fetchSite(req);
     } catch (e) {
-        console.error(e)
-        return { status: LinkPreviewAppResponseStatus[LinkPreviewAppResponseStatus.unread] }
+        console.error(`fetchSiteAndStoreToFirestore fetchSite failed: ${e}`)
+        throw e;
     }
-       
+
     let learnContentDoc;
     const object = {
         title: fetchData.title,
@@ -40,12 +40,10 @@ export const fetchSiteAndStoreToFirestore = async (param: {userId: string, tags?
     }
     try {
         learnContentDoc = await firestore.db().collection('users').doc(userId).collection('learn_content').add(object);
-        console.log(learnContentDoc.id)
-
-        
+        // console.log(learnContentDoc.id)
     } catch (e) {
-        console.error(e)
-        return { status: LinkPreviewAppResponseStatus[LinkPreviewAppResponseStatus.unread] }
+        console.error(`fetchSiteAndStoreToFirestore writing fetch Data in FireStore failed: ${e}`)
+        throw e;
     }
 
     if (tags){
@@ -55,12 +53,10 @@ export const fetchSiteAndStoreToFirestore = async (param: {userId: string, tags?
             }
                     
         } catch (e) {
-            console.error(e)
-    
+            console.error(`fetchSiteAndStoreToFirestore writing tag data in FireStore failed: ${e}`)
+            throw e;
         }
     }
-   
-
 
     return object;
 
