@@ -3,16 +3,21 @@
 ## How to run ##
 
 - Firebase Service account key file path should be set in system environment variable FIREBASE_SERVICE_ACCOUNT_KEY_PATH
+- Required variables
+```
+FIREBASE_SERVICE_ACCOUNT_KEY_PATH: Firebase service account key json file path
+LINK_PREVIEW_API_KEY: Link Preveiw API Key
+```
+
 
 ```
 $ yarn install
-
-$ FIREBASE_SERVICE_ACCOUNT_KEY_PATH=./credentials/your-firebase-adminsdk-serviceaccount.json yarn start
+$ FIREBASE_SERVICE_ACCOUNT_KEY_PATH=./credentials/your-firebase-adminsdk-serviceaccount.json LINK_PREVIEW_API_KEY=YOUR-API-KEY yarn start
 ```
 
 ```
 $ npm install
-$ npm run start
+$ FIREBASE_SERVICE_ACCOUNT_KEY_PATH=./credentials/your-firebase-adminsdk-serviceaccount.json LINK_PREVIEW_API_KEY=YOUR-API-KEY npm run start
 ```
 
 ## How to test ##
@@ -109,4 +114,54 @@ curl -X PATCH  -d '{ "name": "Steve Song", "email": "sshtel@gmail.com", "phone_n
 
 ```
 curl -X DELETE localhost:8080/user/S4U30xNxrlXcgreCabnx
+```
+
+
+### Link Preview Fetch ###
+- for fetch test
+- `POST /link-preview/fetch`
+- Header: Content-Type: application/json
+- Request Body
+```
+{
+    url: string // target url to view using Link Preview
+}
+```
+- Response
+```
+{
+    status: string,
+    fetchData: Object // Raw object response from Link Preview
+}
+```
+```
+$ curl -X POST  localhost:8080/link-preview/fetch -H "Content-Type: application/json" -d '{ "url": "www.google.com" }'
+
+{"status":"ok","fetchData":{"title":"Google","description":"Search the world's information, including webpages, images, videos and more. Google has many special features to help you find exactly what you're looking for.","image":"http://www.google.com/images/branding/googlelogo/1x/googlelogo_white_background_color_272x92dp.png","url":"http://www.google.com"}}%
+```
+
+
+### Link Preview Fetch and Store ###
+- for fetch test
+- `POST /link-preview/fetch-and-store`
+- Header: Content-Type: application/json
+- Request Body
+```
+{
+    url: string, // target url to view using Link Preview
+    user_id: string // userId of User Object in FireStore. preview data is stored within the User object
+}
+```
+- Response
+```
+{
+    status: string,
+    fetchData: Object // Raw object response from Link Preview
+}
+```
+
+```
+curl -X POST  localhost:8080/link-preview/fetch-and-store -H "Content-Type: application/json" -d '{ "url": "www.farmkb.net", "user_id": "ol2yg6i27AoMM52jCCfM" }'
+
+{"status":"unread"}
 ```
