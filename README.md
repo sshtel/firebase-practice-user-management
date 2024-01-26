@@ -1,4 +1,4 @@
-# onloop-coding-task
+# Firebase practice app
 
 ## How to run ##
 
